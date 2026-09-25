@@ -1,0 +1,8 @@
+services:
+  web:
+    image: nidhalboumaiza28/hajmoto-web:latest
+    build:
+      context: .
+    restart: unless-stopped
+    ports:
+      - "8082:80"

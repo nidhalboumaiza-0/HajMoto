@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -17,23 +16,18 @@ import 'package:gestion_stock/features/categories/presentation/bloc/category_eve
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Load environment configuration from .env
-  // Gracefully ignore missing .env in test/mock mode (APP_ENV is set via
-  // environment variable when running with `$env:APP_ENV="test"; flutter run`).
-  try {
-    await dotenv.load(fileName: '.env');
-  } catch (_) {
-    // .env not found – app will fall back to environment variables or defaults.
-    // This is expected when running with APP_ENV=test.
-  }
   AppConfig.init();
 
   // Initialize Supabase only when running in production mode
   if (AppConfig.isProduction) {
+    if (AppConfig.supabaseUrl.isEmpty || AppConfig.supabaseAnonKey.isEmpty) {
+      throw StateError(
+        'SUPABASE_URL and SUPABASE_ANON_KEY are required in production mode.',
+      );
+    }
     await Supabase.initialize(
       url: AppConfig.supabaseUrl,
-      anonKey: AppConfig.supabaseAnonKey,
+      publishableKey: AppConfig.supabaseAnonKey,
     );
   }
 

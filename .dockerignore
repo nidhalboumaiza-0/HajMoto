@@ -1,0 +1,9 @@
+.dart_tool
+.git
+.github
+.idea
+.vscode
+build
+installer
+config.production.json
+*.log

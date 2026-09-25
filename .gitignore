@@ -45,8 +45,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Local environment/secrets
-.env
+# Local production configuration
+config.production.json
 
 # Generated installers
 installer/output/
